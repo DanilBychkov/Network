@@ -12,10 +12,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.network.MainScreenViewModel
@@ -25,7 +29,8 @@ import com.example.network.MainScreenViewModel
 fun GetExampleScreen(viewModel: MainScreenViewModel, navigateBack: () -> Unit) {
     Scaffold(
         topBar = { AppBar(navigateBack) }
-    ) {
+    ) { it ->
+        var productId by remember { mutableIntStateOf(0) }
         val product by viewModel.productState.collectAsState()
         Column(
             modifier = Modifier
@@ -34,8 +39,19 @@ fun GetExampleScreen(viewModel: MainScreenViewModel, navigateBack: () -> Unit) {
         ) {
             Text(text = "Hello from GetExample Screen")
             Spacer(modifier = Modifier.height(8.dp))
-            Button(onClick = { viewModel.getProduct() }) {
-                Text(text = "Load Product")
+
+            TextField(
+                value = productId.toString(),
+                onValueChange = { value ->
+                    productId = if (value.isBlank()) {
+                        0
+                    } else {
+                        value.toInt()
+                    }
+                })
+
+            Button(onClick = { viewModel.getProduct(productId) }) {
+                Text(text = "Load Product with id $productId")
             }
             Spacer(modifier = Modifier.height(8.dp))
             product?.let {
