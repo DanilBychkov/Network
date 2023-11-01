@@ -6,40 +6,43 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.network.examples.GetExampleScreen
 import com.example.network.ui.theme.NetworkTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val viewModel = Di().provideMainScreenViewModel()
+
         setContent {
             NetworkTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    val navController = rememberNavController()
+                    NavHost(navController = navController, startDestination = "MainScreen") {
+                        composable(route = "MainScreen") {
+                            MainScreen(
+                                navigateToGetExample = {
+                                    navController.navigate("GetExample")
+                                }
+                            )
+                        }
+                        composable(route = "GetExample") {
+                            GetExampleScreen(
+                                viewModel = viewModel
+                            ) {
+                                navController.popBackStack()
+                            }
+                        }
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    NetworkTheme {
-        Greeting("Android")
     }
 }
