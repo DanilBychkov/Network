@@ -16,7 +16,8 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun MainScreen(
     navigateToGetExample: () -> Unit,
-    navigateToPostExample: () -> Unit
+    navigateToPostExample: () -> Unit,
+    navigateToQueryExample: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -29,7 +30,10 @@ fun MainScreen(
             Text(text = "Get + Path request example")
         }
         Button(onClick = navigateToPostExample) {
-            Text(text = "Post + Body request example")
+            Text(text = "Post + Body + Header request example")
+        }
+        Button(onClick = navigateToQueryExample) {
+            Text(text = "Query + List request example")
         }
     }
 }

@@ -33,6 +33,8 @@ fun PostExampleScreen(viewModel: MainScreenViewModel, navigateBack: () -> Unit) 
         var login by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         val user by viewModel.userState.collectAsState()
+        val product by viewModel.authProductState.collectAsState()
+
         Column(
             modifier = Modifier
                 .padding(it)
@@ -54,7 +56,12 @@ fun PostExampleScreen(viewModel: MainScreenViewModel, navigateBack: () -> Unit) 
             }
             Spacer(modifier = Modifier.height(8.dp))
             user?.let { user ->
+                viewModel.getAuthProduct(user)
                 Text(text = "User name: ${user.firstName}")
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+            product?.let { product ->
+                Text(text = "Product title with id 1 gets by auth token is ${product.title}")
                 Spacer(modifier = Modifier.height(8.dp))
             }
             Text(text = "User Example: atuny0, 9uQFF1Lh")

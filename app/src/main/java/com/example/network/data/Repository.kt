@@ -2,9 +2,11 @@ package com.example.network.data
 
 import com.example.network.data.Mapper.mapToAuthRequestDto
 import com.example.network.data.Mapper.mapToProduct
+import com.example.network.data.Mapper.mapToProducts
 import com.example.network.data.Mapper.mapToUser
 import com.example.network.domain.AuthRequest
 import com.example.network.domain.Product
+import com.example.network.domain.Products
 import com.example.network.domain.User
 
 class Repository(private val productApi: ProductApi) {
@@ -13,7 +15,15 @@ class Repository(private val productApi: ProductApi) {
         return productApi.getProduct(id).mapToProduct()
     }
 
+    suspend fun getAuthProduct(id: Int, user: User): Product {
+        return productApi.getAuthProduct(user.token, id).mapToProduct()
+    }
+
     suspend fun auth(authRequest: AuthRequest): User {
         return productApi.auth(authRequest.mapToAuthRequestDto()).mapToUser()
+    }
+
+    suspend fun getProductsByName(name: String): Products {
+        return productApi.getProductsByName(name).mapToProducts()
     }
 }

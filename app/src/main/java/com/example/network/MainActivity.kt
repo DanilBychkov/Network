@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.network.examples.GetExampleScreen
 import com.example.network.examples.PostExampleScreen
+import com.example.network.examples.QueryExampleScreen
 import com.example.network.ui.theme.NetworkTheme
 
 class MainActivity : ComponentActivity() {
@@ -36,6 +37,9 @@ class MainActivity : ComponentActivity() {
                                 },
                                 navigateToPostExample = {
                                     navController.navigate("PostExample")
+                                },
+                                navigateToQueryExample = {
+                                    navController.navigate("QueryExample")
                                 }
                             )
                         }
@@ -48,6 +52,13 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = "PostExample") {
                             PostExampleScreen(
+                                viewModel = viewModel
+                            ) {
+                                navController.popBackStack()
+                            }
+                        }
+                        composable(route = "QueryExample") {
+                            QueryExampleScreen(
                                 viewModel = viewModel
                             ) {
                                 navController.popBackStack()

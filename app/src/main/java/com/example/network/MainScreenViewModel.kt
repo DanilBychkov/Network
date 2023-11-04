@@ -29,12 +29,35 @@ class MainScreenViewModel(
     private val _userState = MutableStateFlow<User?>(null)
     val userState = _userState.asStateFlow()
 
+    private val _authProductState = MutableStateFlow<Product?>(null)
+    val authProductState = _authProductState.asStateFlow()
+
     fun auth(login: String, password: String) {
         val request = AuthRequest(login, password)
         viewModelScope.launch {
             _userState.value = repository.auth(request)
         }
     }
+
+    fun getAuthProduct(user: User) {
+        viewModelScope.launch {
+            _authProductState.value = repository.getAuthProduct(1, user)
+        }
+    }
     //endregion
 
+    //region Query Screen
+    private val _inputTextFieldState = MutableStateFlow("")
+    val inputTextField = _inputTextFieldState.asStateFlow()
+
+    private val _productsState = MutableStateFlow<List<Product>>(listOf())
+    val productsState = _productsState.asStateFlow()
+
+    fun onInputText(name: String) {
+        _inputTextFieldState.value = name
+        viewModelScope.launch {
+            _productsState.value = repository.getProductsByName(name).products
+        }
+    }
+    //endregion
 }

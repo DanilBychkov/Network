@@ -19,6 +19,7 @@ class Di {
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+
     private val productApi = retrofit.create(ProductApi::class.java)
     private val repository = Repository(productApi)
     private val viewModel = MainScreenViewModel(repository)
