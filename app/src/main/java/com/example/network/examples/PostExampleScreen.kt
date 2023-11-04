@@ -26,36 +26,38 @@ import com.example.network.MainScreenViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GetExampleScreen(viewModel: MainScreenViewModel, navigateBack: () -> Unit) {
+fun PostExampleScreen(viewModel: MainScreenViewModel, navigateBack: () -> Unit) {
     Scaffold(
         topBar = { AppBar(navigateBack) }
-    ) { it ->
-        var productId by remember { mutableStateOf("1") }
-        val product by viewModel.productState.collectAsState()
+    ) {
+        var login by remember { mutableStateOf("") }
+        var password by remember { mutableStateOf("") }
+        val user by viewModel.userState.collectAsState()
         Column(
             modifier = Modifier
                 .padding(it)
                 .padding(horizontal = 16.dp)
-        ) {
+        )
+        {
+            Text(text = "Login: ")
             TextField(
-                value = productId,
-                onValueChange = { value -> productId = value }
+                value = login,
+                onValueChange = { value -> login = value }
             )
-
-            Button(onClick = {
-                val id = productId.toIntOrNull() ?: 1
-                if (id >= 1) {
-                    viewModel.getProduct(id)
-                }
-                productId = id.toString()
-            }) {
-                Text(text = "Load Product with id $productId")
+            Text(text = "Password: ")
+            TextField(
+                value = password,
+                onValueChange = { value -> password = value }
+            )
+            Button(onClick = { viewModel.auth(login, password) }) {
+                Text(text = "LogIn")
             }
             Spacer(modifier = Modifier.height(8.dp))
-            product?.let {
-                Text(text = "Product name: ${it.title}")
-                Text(text = "Product description: ${it.description}")
+            user?.let { user ->
+                Text(text = "User name: ${user.firstName}")
+                Spacer(modifier = Modifier.height(8.dp))
             }
+            Text(text = "User Example: atuny0, 9uQFF1Lh")
         }
     }
 }
@@ -64,7 +66,7 @@ fun GetExampleScreen(viewModel: MainScreenViewModel, navigateBack: () -> Unit) {
 @Composable
 private fun AppBar(onBackPressClick: () -> Unit) {
     TopAppBar(
-        title = { Text("Get example screen") },
+        title = { Text("Post example screen") },
         navigationIcon = {
             IconButton(onClick = onBackPressClick) {
                 Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)

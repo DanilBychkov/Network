@@ -15,7 +15,8 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun MainScreen(
-    navigateToGetExample: () -> Unit
+    navigateToGetExample: () -> Unit,
+    navigateToPostExample: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -25,7 +26,10 @@ fun MainScreen(
         Text(text = "Retrofit example project", fontSize = 24.sp, color = Color.Black)
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = navigateToGetExample) {
-            Text(text = "Get request example")
+            Text(text = "Get + Path request example")
+        }
+        Button(onClick = navigateToPostExample) {
+            Text(text = "Post + Body request example")
         }
     }
 }

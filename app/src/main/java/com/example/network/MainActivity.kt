@@ -11,13 +11,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.network.examples.GetExampleScreen
+import com.example.network.examples.PostExampleScreen
 import com.example.network.ui.theme.NetworkTheme
 
 class MainActivity : ComponentActivity() {
+
+    lateinit var viewModel: MainScreenViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModel = Di().provideMainScreenViewModel()
-
+        Di().inject(this)
         setContent {
             NetworkTheme {
                 Surface(
@@ -30,11 +33,21 @@ class MainActivity : ComponentActivity() {
                             MainScreen(
                                 navigateToGetExample = {
                                     navController.navigate("GetExample")
+                                },
+                                navigateToPostExample = {
+                                    navController.navigate("PostExample")
                                 }
                             )
                         }
                         composable(route = "GetExample") {
                             GetExampleScreen(
+                                viewModel = viewModel
+                            ) {
+                                navController.popBackStack()
+                            }
+                        }
+                        composable(route = "PostExample") {
+                            PostExampleScreen(
                                 viewModel = viewModel
                             ) {
                                 navController.popBackStack()

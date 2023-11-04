@@ -1,4 +1,4 @@
-package com.example.network.data
+package com.example.network.data.dto
 
 data class ProductDto(
     val brand: String,
