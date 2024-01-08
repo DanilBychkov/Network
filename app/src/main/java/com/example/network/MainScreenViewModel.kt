@@ -20,7 +20,11 @@ class MainScreenViewModel(
 
     fun getProduct(id: Int) {
         viewModelScope.launch {
-            _productState.value = repository.getProduct(id)
+            try {
+                _productState.value = repository.getProduct(id)
+            } catch (_: Exception) {
+
+            }
         }
     }
     //endregion

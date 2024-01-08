@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.network.coil.CoilExampleScreen
 import com.example.network.examples.GetExampleScreen
 import com.example.network.examples.PostExampleScreen
 import com.example.network.examples.QueryExampleScreen
@@ -40,6 +41,9 @@ class MainActivity : ComponentActivity() {
                                 },
                                 navigateToQueryExample = {
                                     navController.navigate("QueryExample")
+                                },
+                                navigateToCoilExample = {
+                                    navController.navigate("CoilExample")
                                 }
                             )
                         }
@@ -63,6 +67,11 @@ class MainActivity : ComponentActivity() {
                             ) {
                                 navController.popBackStack()
                             }
+                        }
+                        composable(route = "CoilExample") {
+                            CoilExampleScreen(
+                                viewModel = viewModel
+                            )
                         }
                     }
                 }

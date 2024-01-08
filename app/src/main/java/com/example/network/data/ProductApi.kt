@@ -1,5 +1,6 @@
 package com.example.network.data
 
+import com.example.network.annotation.UnknownAnnotation
 import com.example.network.data.dto.AuthRequestDto
 import com.example.network.data.dto.ProductDto
 import com.example.network.data.dto.ProductsDto
@@ -25,10 +26,11 @@ interface ProductApi {
     ): ProductDto
 
     @POST("auth/login")
-    suspend fun auth(@Body authRequest: AuthRequestDto): UserDto
+    suspend fun auth(@Body authRequest: AuthRequestDto): Result<UserDto>
 
     @GET("products/search")
     suspend fun getProductsByName(@Query("q") name: String): ProductsDto
 
-    //TODO пример с Response
+    @UnknownAnnotation
+    suspend fun getRequestWithUnknownAnnotation()
 }

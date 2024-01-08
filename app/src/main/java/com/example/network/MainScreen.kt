@@ -17,7 +17,8 @@ import androidx.compose.ui.unit.sp
 fun MainScreen(
     navigateToGetExample: () -> Unit,
     navigateToPostExample: () -> Unit,
-    navigateToQueryExample: () -> Unit
+    navigateToQueryExample: () -> Unit,
+    navigateToCoilExample: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -34,6 +35,9 @@ fun MainScreen(
         }
         Button(onClick = navigateToQueryExample) {
             Text(text = "Query + List request example")
+        }
+        Button(onClick = navigateToCoilExample) {
+            Text(text = "Coil")
         }
     }
 }

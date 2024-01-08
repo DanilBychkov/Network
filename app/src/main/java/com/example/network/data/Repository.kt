@@ -16,11 +16,17 @@ class Repository(private val productApi: ProductApi) {
     }
 
     suspend fun getAuthProduct(id: Int, user: User): Product {
-        return productApi.getAuthProduct(user.token, id).mapToProduct()
+        return productApi.getAuthProduct("user.token", id).mapToProduct()
     }
 
     suspend fun auth(authRequest: AuthRequest): User {
-        return productApi.auth(authRequest.mapToAuthRequestDto()).mapToUser()
+        val user = productApi.auth(authRequest.mapToAuthRequestDto())
+        user.onFailure {
+            val t = 1
+        }.onSuccess {
+            val v = 2
+        }
+        return user.getOrNull()?.mapToUser()!!
     }
 
     suspend fun getProductsByName(name: String): Products {
